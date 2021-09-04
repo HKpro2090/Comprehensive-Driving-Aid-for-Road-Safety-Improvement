@@ -1,16 +1,19 @@
-# myapp
+# Comprehensive Driving Aid for Road Safety Improvement
 
-A new Flutter application.
+This Repo deals with Android app part of the Project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Introduction
+Road fatalities amount to around 3.14% loss of annual GDP loss. Fatalities during night aretwice than the number during day even though roads are used significantly less at night time. This is due to poor visibility, unmarked roads, pedestrians, and animals. To tackle this issue vehicles are outfitted with safety technologies such as Adaptive Driving Beam (ADB), Night Vision Enhancement Systems (NVES), Advanced Driver Assistance Systems (ADAS) and AW (Automatic Warning) systems. However, these safety systems are exclusive to high end models, cost prohibitive for mass adoption as they need extensive modifications and attachment of peripherals to the vehicles.The proposed system is a comprehensive solution to tackle many of the aforementioned problems pertaining to road safety by using a universal and generic black box-based design that combines the benefits of all these systems to make it easier for mass adoption and cost effective. It is also adaptable and independent of the existing digital system present in the vehicle, so that it can easily be fit into any model of vehicle, independent of the manufacturer. 
+This system contains a NV camera, with an AI based classifier to identify road damage, unmarked vehicles and pedestrians and a display to give path prediction on unmarked roads, especially during night. The adaptive headlight system is also an addition to improve visibility during night for all road users, preventing glare to other road users as well as giving optimal lighting conditions to the driver.It also contains an AW system with audio feedback to alert drivers without burdening them with additional load, to improve overall safety.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Methodology
+The main sensor that is crucial for meeting all the objectives is the camera which is equipped with a night vision system with the IR filter removed and with additional IR transmitters which enables a better video quality during low light and night driving conditions. The controller that is used for data integration from the sensor and command the headlight subsystem (Intensity and beam direction control) must have multiple I/O capability as well as wireless communication capability to act as a gateway to stream the video feed to the processing node. For edge computing applications where a mobile phone is not used as the main processor to run the AI models for meeting each objective, the controller must have enough processing power as well as a GPU to handle the computation required. To reduce the cost of the overall system, a mobile phone can be used as the computing node, where the controller just acts as a coordinator and gateway for the sensor nodes (camera, headlights etc). This mobile phone application also streams the video with the detection and warning overlays and the predicted path incase of roads with no or damaged markings to enable safe navigation in low light or night driving conditions.The automatic warning system using audio warning is achieved by integrating the existing audio system in the car by connecting through the Bluetooth or aux interface. The user is warned whenever he encounters the obstacles (road damage, pedestrians etc).The high-level system pipeline can be summarized as follows:
+1.Continuous video feed is acquired by the camera system with night vision capability.
+2.The acquired data is transmitted by the raspberry pi controller wirelessly to the processing node.
+3.Captured video feed is fed to different AI models by pre processing them as per the requirement of each model on the processing node.
+4.The inference output from each model is fed to the respective subsystems. For lane detection on unmarked or partially marked roads, the predicted direction is overlayed on the live video feed to the display unit.
+5.For automatic road visibility enhancement model, the brightness and proximity of the oncoming cars are determined and the required brightness and beam direction is fed as inputto the controller.
+6.The headlight subsystem achieves the required brightness and beam direction via the controller.
+7.In case of the unmarked road hazard detection model, the detected hazards such as pedestrians, unmarked vehicles, road damage and markings are identified and marked on the live video feed to the display unit and the type of hazard detected is fed back to the controller or the mobile application to sound a warning.
+8.The controller based on the detected hazard, sounds a distinct alarm to driver as an automatic warning of the hazard
